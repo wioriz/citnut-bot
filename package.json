@@ -1,0 +1,29 @@
+{
+  "name": "Citnutbot",
+  "version": "1.0.0",
+  "description": "adu j ngu vay",
+  "main": "bot/index.js",
+  "scripts": {
+    "start": "node bot"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "DCbot"
+  ],
+  "author": "Citnut",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "^12.5.3",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.5",
+    "recursive-readdir": "^2.2.2"
+  }
+}
