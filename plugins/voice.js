@@ -8,7 +8,6 @@ module.exports = {
 	guide: "<param>",
 	allowListening: false,
 	async listen (data) {
-		//console.log("hi hi hi")
 	},
 	async call (data) {
 		let { content } = data;
