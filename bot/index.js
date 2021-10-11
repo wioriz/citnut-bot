@@ -21,7 +21,7 @@ globalThis.citnut = {
 	plugin: async function () {
 		let data = [];
 		let allcommand = [];
-		const list = await recursive("./plugins");
+		const list = await recursive("./plugins", ["data"]);
 		try {
 			for (const files of list) {
 				const item = require(`../${files}`);
@@ -67,10 +67,14 @@ async function run () {
 			};
 
 			let keyword = citnut.tools.getKeyword(message.content);
+			let thuat_toan_ngu_ngok_cua_citnut = [];
 			for (const index of load) {
-				if (message.content.indexOf(citnut.config.prefix) == 0 ) {
+				if (message.content.indexOf(citnut.config.prefix) == 0) {
 					if (index.item.command.includes(keyword)) {
+						thuat_toan_ngu_ngok_cua_citnut.push(true);
 						await index.item.call(message)
+					} else {
+						thuat_toan_ngu_ngok_cua_citnut.push(false)
 					};
 					if (message.content.length == citnut.config.prefix.length) {
 						return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
@@ -79,7 +83,8 @@ async function run () {
 				if (index.item.allowListening) {
 					await index.item.listen(message)
 				}
-			}
+			};
+			if (!thuat_toan_ngu_ngok_cua_citnut.includes(true) && message.content.indexOf(citnut.config.prefix) == 0) { return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message) }
 		})
 	} catch (e) { console.error(e) }
 };
