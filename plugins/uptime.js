@@ -1,6 +1,5 @@
 const pidusage = require("pidusage");
 const axios = require('axios');
-const moment = require("moment-timezone");
 const fetch = require("node-fetch");
 function byte2mb(bytes) {
 	const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -19,19 +18,21 @@ module.exports = {
 	},
 	async call (data) {
 		const { send } = citnut;
-		let gio = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss"),
-			prefix = citnut.config.prefix,
+		let prefix = citnut.config.prefix,
 			time = process.uptime(),
-			hours = Math.floor(time / (60 * 60)),
+			day = Math.floor(time/(60*60*24)),
+			hours = Math.floor((time / (60 * 60)) - (day*24)),
 			minutes = Math.floor((time % (60 * 60)) / 60),
 			seconds = Math.floor(time % 60),
 			timeStart = Date.now(),
-			res = await axios.get('https://api.vinhbeat.ga/gai.php'),
 			cpuuu = await pidusage(process.pid);
 		try {
-			let r = await fetch(res.data.data),
+			let res = await citnut.getapi("girl",data,false)
+			if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
+
+			let r = await fetch(res),
 				attachment = await r.buffer();
-			send("```"+`Hiện tại đang là: ${gio} và bot đã hoạt động được ${hours} giờ ${minutes} phút ${seconds} giây.\n🐳Prefix: ${prefix}\n🐳Cpu đang sử dụng: ${cpuuu.cpu.toFixed(1)}\n🐳Ram đang sử dụng: ${byte2mb(cpuuu.memory)}\n🐳Ping: ${Date.now() - timeStart}ms`+"```", data);
+			send("```"+`bot đã hoạt động được ${day} ngày ${hours} giờ ${minutes} phút ${seconds} giây.\n🐳Prefix: ${prefix}\n🐳Cpu đang sử dụng: ${cpuuu.cpu.toFixed(1)}\n🐳Ram đang sử dụng: ${byte2mb(cpuuu.memory)}\n🐳Ping: ${Date.now() - timeStart}ms`+"```", data);
 			send({
 				files: [{
 					name: `uptime.jpg`,

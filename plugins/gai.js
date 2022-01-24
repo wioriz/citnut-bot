@@ -1,5 +1,4 @@
-const axios = require("axios");
-const fetch = require("node-fetch");
+const fetch = require("node-fetch")
 
 module.exports = {
 	command: ["girl", "gái"],
@@ -11,9 +10,10 @@ module.exports = {
 	},
 	async call (data) {
 		const { send } = citnut;
-		const res = await axios.get(`https://api.vangbanlanhat.tk/image?type=gai`);
+		const res = await citnut.getapi("girl",data,false)
+		if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
 		try {
-			let r = await fetch(res.data.data);
+			let r = await fetch(res);
 			let attachment = await r.buffer();
 
 			return send({

@@ -40,7 +40,7 @@ const checkupdate = async (version) => {
 	}
 }
 
-const accesapi = (arr, obj) => {
+const accesapi = async (arr, obj) => {
 	try {
 		let res = ""
 		for (all of arr) {

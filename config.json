@@ -1,0 +1,14 @@
+{
+	"token": "",
+	"prefix": "!",
+	"api": {
+		"cadao": [
+			"https://manhict.tech/cadaovn",
+			["result","rdCadao"]
+		],
+		"girl": [
+			"https://imgs-api.herokuapp.com/girl?apikey=mk002",
+			["url"]
+		]
+	}
+}

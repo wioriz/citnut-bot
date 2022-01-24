@@ -38,14 +38,19 @@ globalThis.citnut = {
 			data
 		}
 	},
-	"getapi": async function (apiname, data, options) {
-		if (!this.config.api[apiname][0]) { return false }
+	"getapi": async function (apiname, bot, options) {
+		if (!citnut.config.api[apiname][0]) { return false }
 		try {
-			if (!options) { return this.tools.accesapi(this.config.api[apiname][1],axios.get(this.config.api[apiname][0])) } else
-			{ return this.tools.accesapi(this.config.api[apiname][1],axios.get(this.config.api[apiname][0]+options))}
+			if (!options) { 
+				let {data} = await axios.get(citnut.config.api[apiname][0])
+				return citnut.tools.accesapi(citnut.config.api[apiname][1],data)
+			} else {				
+				let {data} = await axios.get(citnut.config.api[apiname][0]+options)
+				return citnut.tools.accesapi(citnut.config.api[apiname][1],data)
+			}
 		} catch (e) {
 			console.error(e)
-			this.send("`"+`api ${apiname} đã bị lỗi`+"`", data)
+			citnut.send("`"+`api ${apiname} đã bị lỗi`+"`", bot)
 		}
 	}
 };
@@ -82,12 +87,12 @@ async function run () {
 			for (const index of load) {
 				if (message.content.indexOf(citnut.config.prefix) == 0) {
 					if (index.item.command.includes(keyword)) {
-						await index.item.call(message)
+						return index.item.call(message)
 					} else {
-						citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
+						return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
 					}
 					if (message.content.length == citnut.config.prefix.length) {
-						citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
+						return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
 					}
 				}
 				if (index.item.allowListening) {
