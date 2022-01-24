@@ -74,8 +74,9 @@ async function run () {
 		console.table(table)
 		citnut.tools.checkupdate(require("../package.json").version)
 		//console.log(files.allcommand);
+		let errmsg = "```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```";
 
-		bot.login(citnut.config.token);
+		bot.login(citnut.config.token)
 		bot.on("message", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
 				console.log(`${message.author.tag}`.yellow,`đã sử dụng lệnh tại`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
@@ -83,22 +84,20 @@ async function run () {
 				console.log(`${message.author.tag}`.yellow,`đã gửi tin nhắn đến`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
 
-			let keyword = citnut.tools.getKeyword(message.content);
+			let keyword = citnut.tools.getKeyword(message.content)
+			let checkkeyw = []
 			for (const index of load) {
-				if (message.content.indexOf(citnut.config.prefix) == 0) {
-					if (index.item.command.includes(keyword)) {
-						return index.item.call(message)
-					} else {
-						return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
-					}
-					if (message.content.length == citnut.config.prefix.length) {
-						return citnut.send("```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```", message)
-					}
-				}
+				if (message.content.indexOf(citnut.config.prefix) == 0 && index.item.command.includes(keyword)) {
+					checkkeyw.push(true)			
+					await index.item.call(message)
+				} else { checkkeyw.push(false) }
+									
 				if (index.item.allowListening) {
 					await index.item.listen(message)
 				}
 			}
+			if (message.content == citnut.config.prefix) { return citnut.send(errmsg, message) }
+			if (!checkkeyw.includes(true) && message.content.indexOf(citnut.config.prefix) == 0) { return citnut.send(errmsg, message)}
 		})
 	} catch (e) { console.error(e) }
 }
