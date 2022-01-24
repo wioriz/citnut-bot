@@ -1,4 +1,5 @@
-//file update này được xin từ kb2abot//
+//file update này được xin từ kb2abot
+//src: https://github.com/kb2ateam/kb2abot/blob/c8a115c8f2d65fadf3bdb3667b9bd2570ba8cd5d/scripts/update.js
 
 const fs = require('fs')
 const path = require('path')

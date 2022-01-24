@@ -1,4 +1,10 @@
 {
 	"token": "",
-	"prefix": "!"
+	"prefix": "!",
+	"api": {
+		"cadao": [
+			"https://manhict.tech/cadaovn",
+			["result","rdCadao"]
+		]
+	}
 }

@@ -1,14 +1,16 @@
-const axios = require("axios");
+
 module.exports = {
-	command: ["cadao", "tucngu"],
+	command: ["cadao"],
 	author: "Citnut",
-	description: "ca dao, tục ngữ, api của Mai Huy Bảo",
+	description: "ca dao VN",
 	guide: "",
 	allowListening: false,
 	async listen (data) {
 	},
 	async call (data) {
-		const res = await axios.get(`https://api.vangbanlanhat.tk/other?type=cadao`);
-		return citnut.send("`"+res.data.data+"`", data)
+		const res = await citnut.getapi("cadao",data,false)
+
+		if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
+		return citnut.send("`"+res+"`", data)
 	}
 }
