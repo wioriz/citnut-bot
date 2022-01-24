@@ -28,7 +28,7 @@ const execShellCommand = (cmd) => {
     })
 }
 
-const checkupdate = (version) => {
+const checkupdate = async (version) => {
 	const {data} = await axios.get('https://raw.githubusercontent.com/Citnut/demoProject/main/package.json');
 		
 	if (data.version != version) {
