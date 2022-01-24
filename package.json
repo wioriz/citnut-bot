@@ -1,23 +1,21 @@
 {
-  "name": "Citnutbot",
+  "name": "citnutbot",
   "version": "1.0.0",
   "description": "adu j ngu vay",
   "main": "bot/index.js",
   "scripts": {
-    "start": "node bot"
+    "start": "node bot",
+    "update": "node bot/update.js"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Citnut/demoProject.git"
   },
   "keywords": [
     "DCbot"
   ],
   "author": "Citnut",
-  "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
+  "license": "MIT",
   "homepage": "",
   "dependencies": {
     "axios": "^0.22.0",
@@ -27,6 +25,8 @@
     "moment-timezone": "^0.5.33",
     "node-fetch": "^2.6.5",
     "pidusage": "^2.0.21",
+    "decache": "^4.6.0",
+    "simple-git": "^2.48.0",
     "recursive-readdir": "^2.2.2"
   }
 }
