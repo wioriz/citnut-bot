@@ -5,12 +5,15 @@ const tools = require("./tools.js")
 const config = require("../config.json")
 const Discord = require("discord.js")
 const bot = new Discord.Client()
+const fakesv = require("./fakesv.js")
 //console.table(config);
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
 bot.on("ready", function(){
-	console.log(` [CITNUT] đăng nhập thành công:`.green, `${bot.user.tag}\n`.magenta, `[CITNUT] prefix: ${citnut.config.prefix}`.green);
+	console.log(` [CITNUT] đăng nhập thành công:`.green, `${bot.user.tag}\n`.magenta, `[CITNUT] prefix: ${citnut.config.prefix}`.green)
+	fakesv()
+    console.log(" [CITNUT] đã tạo thành công trang web giả của bot".green)
 })
 
 globalThis.citnut = {
@@ -79,9 +82,9 @@ async function run () {
 		bot.login(citnut.config.token)
 		bot.on("message", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
-				console.log(`${message.author.tag}`.yellow,`đã sử dụng lệnh tại`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				console.log(" [CITNUT] ".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			} else {
-				console.log(`${message.author.tag}`.yellow,`đã gửi tin nhắn đến`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				console.log(" [CITNUT] ".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
 
 			let keyword = citnut.tools.getKeyword(message.content)
