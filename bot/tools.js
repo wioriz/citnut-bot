@@ -1,6 +1,7 @@
 const fs = require('fs')
 const axios = require("axios")
 const childProcess = require('child_process')
+const colors = require("colors")
 
 const getParam = text => {
 	return text
@@ -35,9 +36,9 @@ const checkupdate = async (version) => {
 		const {data: info} = await axios.get('https://api.github.com/repos/Citnut/demoProject/git/refs/heads/main');
 		const {data: commit} = await axios.get(info.object.url);
 			
-		console.warn(`Da co phien ban moi: ${data.version}, phien ban hien tai: ${version}, go "npm run update" de cap nhat!`);
-		console.warn(`Noi dung update: ${commit.message}`);
-	}
+		console.log(` [UPDATE] Đã có phiên bản mới: ${data.version}, phiên bản hiện tại: ${version}, go "npm run update" để cập nhật!`.yellow);
+		console.log(` [UPDATE] Nội dung cập nhật: ${commit.message}`.yellow)
+	}else { console.log(" [UPDATE] Bạn đang sử dụng phiên bản mới nhất".yellow) }
 }
 
 const accesapi = async (arr, obj) => {
@@ -46,8 +47,9 @@ const accesapi = async (arr, obj) => {
 		for (all of arr) {
 			if (obj[all]) { res = obj[all] } else { res = res[all]}
 		}
+		
 		return res
-	} catch (e) {console.error(e)}
+	} catch (e) {console.error}
 }
 
 module.exports = {

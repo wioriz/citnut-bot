@@ -2,11 +2,18 @@ const recursive = require("recursive-readdir")
 const colors = require("colors")
 const axios = require("axios")
 const tools = require("./tools.js")
-const config = require("../config.json")
+const {writeFileSync, existsSync} = require("fs")
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 const fakesv = require("./fakesv.js")
-//console.table(config);
+
+if (!existsSync("./config.json")) {
+	writeFileSync("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
+	console.log(" [CITNUT] đã khởi tạo file config".yellow)
+} else {console.log(" [CITNUT] đã phát hiện file config".yellow)}
+const config = require("../config.json")
+
+if (config.token == "" || typeof config.token != "string") {console.log(" [CITNUT]".red,"chưa có token trong config".yellow); process.exit()}
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
@@ -46,14 +53,15 @@ globalThis.citnut = {
 		try {
 			if (!options) { 
 				let {data} = await axios.get(citnut.config.api[apiname][0])
-				return citnut.tools.accesapi(citnut.config.api[apiname][1],data)
+				await citnut.tools.accesapi(citnut.config.api[apiname][1],data)
 			} else {				
 				let {data} = await axios.get(citnut.config.api[apiname][0]+options)
-				return citnut.tools.accesapi(citnut.config.api[apiname][1],data)
+				await citnut.tools.accesapi(citnut.config.api[apiname][1],data)
 			}
+			console.log(" [API] ".green,(apiname+(options?options:"")).yellow)
 		} catch (e) {
-			console.error(e)
 			citnut.send("`"+`api ${apiname} đã bị lỗi`+"`", bot)
+			console.log(" [API] error ".red,(apiname+(options?options:"")).yellow)
 		}
 	}
 };
@@ -65,26 +73,23 @@ async function run () {
 			`	█   █  █  ██ █ █ █  █\n`.green+
 			`	█   █  █  █ ██ █ █  █\n`.green+
 			`	 ██ █  █  █  █ ███  █\n`.green
-		);
+		)
 		let files = await citnut.plugin()
-		let table = []
 		let load = files.data
-		for (const file of load) {
-			table.push({"tệp": file.path.slice(8), "từ khóa": file.item.command, "tác giả": file.item.author, "luôn lắng nghe": (file.item.allowListening ? "có" : "không")});
-		};
-
-		console.log(` [CITNUT] danh sách plugin:`.yellow)
-		console.table(table)
+		
+		console.log(` [CITNUT]`.yellow,`plugin loading:`.green)
+		for (const file of load) { console.log(" [CITNUT] plugin".green,`${file.item.command[0]}(${file.item.description})`.yellow,"by".green,`${file.item.author}`.yellow) }
+		console.log(` [CITNUT]`.yellow,`plugin loaded!`.green)
+		
 		citnut.tools.checkupdate(require("../package.json").version)
-		//console.log(files.allcommand);
-		let errmsg = "```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```";
+		let errmsg = "```"+`Lệnh bạn sử dụng không tồn tại!\n(╯°□°）╯︵ ┻━┻\nĐể hiển thị danh sách lệnh sử dụng ${citnut.config.prefix}help`+"```"
 
 		bot.login(citnut.config.token)
 		bot.on("message", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
-				console.log(" [CITNUT] ".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			} else {
-				console.log(" [CITNUT] ".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
 
 			let keyword = citnut.tools.getKeyword(message.content)
