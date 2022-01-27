@@ -34,7 +34,7 @@ module.exports = {
 			hoatdong+=(minutes>0)?`${minutes} phút\n`:""
 
 			send("```"+`bot đã hoạt động được:\n${hoatdong}${seconds} giây\n> Prefix: ${prefix}\n> Ram đang sử dụng: ${ram.toFixed(1)}MB\n> Ping: ${Date.now() - timeStart}ms`+"```", data);
-			send(((!res)?"":res), data)
+			if (res) {send(res,data)}
 		}catch (e) {
 			send("`"+`đã xảy ra lỗi`+"`", data);
 			console.error(e)
