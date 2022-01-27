@@ -50,6 +50,7 @@ globalThis.citnut = {
 	},
 	"getapi": async function (apiname, bot, options) {
 		if (!citnut.config.api[apiname][0]) { return false }
+		else {console.log(" [API] request to api:".green,(apiname+"option(s): "+(options?options:"none")).yellow)}
 		try {
 			if (!options) { 
 				let {data} = await axios.get(citnut.config.api[apiname][0])
@@ -58,7 +59,6 @@ globalThis.citnut = {
 				let {data} = await axios.get(citnut.config.api[apiname][0]+options)
 				await citnut.tools.accesapi(citnut.config.api[apiname][1],data)
 			}
-			console.log(" [API] ".green,(apiname+(options?options:"")).yellow)
 		} catch (e) {
 			citnut.send("`"+`api ${apiname} đã bị lỗi`+"`", bot)
 			console.log(" [API] error ".red,(apiname+(options?options:"")).yellow)
