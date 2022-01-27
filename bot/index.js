@@ -11,9 +11,8 @@ if (!existsSync("./config.json")) {
 	writeFileSync("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
 	console.log(" [CITNUT] đã khởi tạo file config".yellow)
 } else {console.log(" [CITNUT] đã phát hiện file config".yellow)}
-const config = require("../config.json")
 
-if (config.token == "" || typeof config.token != "string") {console.log(" [CITNUT]".red,"chưa có token trong config".yellow); process.exit()}
+//if (config.token == "" || typeof config.token != "string") {console.log(" [CITNUT]".red,"chưa có token trong config".yellow); process.exit()}
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
@@ -24,7 +23,7 @@ bot.on("ready", function(){
 })
 
 globalThis.citnut = {
-	config,
+	config: require("../config.json"),
 	tools,
 	send: async function (replyMSG, message) {
 		try { message.channel.send(replyMSG) } catch (e) { console.error(e) }
