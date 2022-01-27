@@ -26,7 +26,7 @@ module.exports = {
 			ram = (totalmem-freemem)/1024/1024
 		try {
 			let res = await citnut.getapi("girl",data,false)
-			if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
+			//if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
 
 			let hoatdong = ""
 			hoatdong+=(day>0)?`${day} ngày\n`:""
@@ -34,7 +34,7 @@ module.exports = {
 			hoatdong+=(minutes>0)?`${minutes} phút\n`:""
 
 			send("```"+`bot đã hoạt động được:\n${hoatdong}${seconds} giây\n> Prefix: ${prefix}\n> Ram đang sử dụng: ${ram.toFixed(1)}MB\n> Ping: ${Date.now() - timeStart}ms`+"```", data);
-			send(res, data)
+			send(res||"", data)
 		}catch (e) {
 			send("`"+`đã xảy ra lỗi`+"`", data);
 			console.error(e)
