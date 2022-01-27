@@ -50,7 +50,6 @@ globalThis.citnut = {
 	},
 	"getapi": async function (apiname, bot, options) {
 		if (!citnut.config.api[apiname][0]) { return false }
-		else {console.log(" [API] request to api:".green,(apiname+"option(s): "+(options?options:"none")).yellow)}
 		try {
 			if (!options) { 
 				let {data} = await axios.get(citnut.config.api[apiname][0])
