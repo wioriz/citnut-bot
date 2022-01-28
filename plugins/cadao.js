@@ -8,7 +8,7 @@ module.exports = {
 	async listen (data) {
 	},
 	async call (data) {
-		const res = await citnut.getapi("cadao",data,false)
+		const res = await citnut.tools.getapi("cadao",data,false)
 
 		if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
 		return citnut.send("`"+res+"`", data)
