@@ -18,6 +18,7 @@ bot.on("ready", function(){
 
 
 globalThis.citnut = {
+	Discord,
 	config,
 	tools,
 	send: function (replyMSG, message) {

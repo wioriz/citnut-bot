@@ -6,4 +6,4 @@ một vài src được lấy từ kb2abot nhưng đây là bot Discord, không 
 
 # This is free, thanks
 
-<img src = "logo.jpg">
+<img src = "logo.jpg" alt = "logo" align = "center">
