@@ -1,18 +1,12 @@
-const recursive = require("recursive-readdir")
 const colors = require("colors")
 const axios = require("axios")
 const tools = require("./tools.js")
-const {writeFileSync, existsSync} = require("fs")
+tools.checkfile("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
+const config = require("../config.json")
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 const fakesv = require("./fakesv.js")
-
-if (!existsSync("./config.json")) {
-	writeFileSync("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
-	console.log(" [CITNUT] đã khởi tạo file config".yellow)
-} else {console.log(" [CITNUT] đã phát hiện file config".yellow)}
-
-//if (config.token == "" || typeof config.token != "string") {console.log(" [CITNUT]".red,"chưa có token trong config".yellow); process.exit()}
+const recursive = require("recursive-readdir")
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
@@ -22,10 +16,11 @@ bot.on("ready", function(){
     console.log(" [CITNUT] đã tạo thành công trang web giả của bot".green)
 })
 
+
 globalThis.citnut = {
-	config: require("../config.json"),
+	config,
 	tools,
-	send: async function (replyMSG, message) {
+	send: function (replyMSG, message) {
 		try { message.channel.send(replyMSG) } catch (e) { console.error(e) }
 	},
 	plugin: async function () {
@@ -46,24 +41,8 @@ globalThis.citnut = {
 			allcommand,
 			data
 		}
-	},
-	"getapi": async function (apiname, bot, options) {
-		if (!citnut.config.api[apiname][0]) { return false }
-		try {
-			if (!options) { 
-				let {data} = await axios.get(citnut.config.api[apiname][0])
-				await citnut.tools.accesapi(citnut.config.api[apiname][1],data)
-			} else {				
-				let {data} = await axios.get(citnut.config.api[apiname][0]+options)
-				await citnut.tools.accesapi(citnut.config.api[apiname][1],data)
-			}
-		} catch (e) {
-			citnut.send("`"+`api ${apiname} đã bị lỗi`+"`", bot)
-			console.log(" [API] error ".red,(apiname+(options?options:"")).yellow)
-		}
 	}
-};
-
+}
 async function run () {
 	try {
 		console.log(
@@ -74,6 +53,7 @@ async function run () {
 		)
 		let files = await citnut.plugin()
 		let load = files.data
+		//console.log(citnut.config
 		
 		console.log(` [CITNUT]`.yellow,`plugin loading:`.green)
 		for (const file of load) { console.log(" [CITNUT] plugin".green,`${file.item.command[0]}(${file.item.description})`.yellow,"by".green,`${file.item.author}`.yellow) }

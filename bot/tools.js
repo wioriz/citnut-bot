@@ -41,7 +41,7 @@ const checkupdate = async (version) => {
 	}else { console.log(" [UPDATE] Bạn đang sử dụng phiên bản mới nhất".yellow) }
 }
 
-const accesapi = async (arr, obj) => {
+const accesobj = (arr, obj) => {
 	try {
 		let res = ""
 		for (all of arr) {
@@ -51,12 +51,30 @@ const accesapi = async (arr, obj) => {
 		return res
 	} catch (e) {console.error}
 }
+const getapi = async (apiname, bot, options) => {
+	try {			
+		const {data} = await axios.get(citnut.config.api[apiname][0]+(options?options:""))
+		return accesobj(citnut.config.api[apiname][1],data)
+	} catch (e) {
+		citnut.send("`"+`api ${apiname} đã bị lỗi`+"`", bot)
+		console.log(" [API] error".red,(apiname+(options?options:"")+" "+e).yellow)
+	}
+	
+}
 
+const checkfile = (file, data) => {
+	if (!fs.existsSync(file)) {
+		fs.writeFileSync(file, data)
+		console.log(" [CITNUT] đã khởi tạo thành công file".yellow,file)
+	} else {console.log(" [CITNUT] đã phát hiện file".yellow,file)}
+}
 module.exports = {
 	getParam,
 	getKeyword,
 	getFile,
 	execShellCommand,
 	checkupdate,
-	accesapi
+	accesobj,
+	getapi,
+	checkfile
 }

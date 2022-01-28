@@ -1,6 +1,6 @@
 {
 	"name": "citnutbot",
-	"version": "1.1.3",
+	"version": "1.1.4",
 	"description": "adu j ngu vay",
 	"main": "bot/index.js",
 	"scripts": {
