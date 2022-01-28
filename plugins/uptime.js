@@ -25,7 +25,7 @@ module.exports = {
 			timeStart = Date.now(),
 			ram = (totalmem-freemem)/1024/1024
 		try {
-			let res = await citnut.getapi("girl",data,false)
+			let res = await citnut.tools.getapi("girl",data,false)
 			//if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
 
 			let hoatdong = ""
