@@ -1,7 +1,7 @@
 module.exports = {
-	command: ["srouce", "src"],
+	command: ["source", "src"],
 	author: "Citnut",
-	description: "xem srouce gốc của bot",
+	description: "xem source của bot ở đâu",
 	guide: "",
 	allowListening: false,
 	async listen (data) {
