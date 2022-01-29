@@ -12,9 +12,9 @@ module.exports = {
 	description: "xem uptime của bot",
 	guide: "",
 	allowListening: false,
-	async listen (data) {
+	async listen (data,db) {
 	},
-	async call (data) {
+	async call (data,db) {
 		const { send } = citnut;
 		let prefix = citnut.config.prefix,
 			time = process.uptime(),
@@ -36,9 +36,10 @@ module.exports = {
 			const emb = new citnut.Discord.MessageEmbed()
 			.setColor("RANDOM")
 			.setDescription(`bot đã hoạt động được:\n${hoatdong}\n> Prefix: ${prefix}\n> Ram đang sử dụng: ${ram.toFixed(1)}MB\n> Ping: ${Date.now() - timeStart}ms`)
+			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
 			
 
-			send(!res?emb:emb.setImage(res),data)
+			send(!res?{embeds:[emb]}:{embeds:[emb.setThumbnail(res)]},data)
 			
 		}catch (e) {
 			send("`"+`đã xảy ra lỗi`+"`", data);

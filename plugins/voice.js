@@ -7,9 +7,9 @@ module.exports = {
 	description: "giọng nói google",
 	guide: "<param>",
 	allowListening: false,
-	async listen (data) {
+	async listen (data,db) {
 	},
-	async call (data) {
+	async call (data,db) {
 		let { content } = data;
 
 		try {

@@ -68,6 +68,14 @@ const checkfile = (file, data) => {
 		console.log(" [CITNUT] đã khởi tạo thành công file".yellow,file)
 	} else {console.log(" [CITNUT] đã phát hiện file".yellow,file)}
 }
+
+const db = {
+	get: require("../data.json"),
+	write: (c) => {
+		try {fs.writeFileSync("./data.json",JSON.stringify(c,null,2))} catch {console.error}
+	}
+}
+
 module.exports = {
 	getParam,
 	getKeyword,
@@ -76,5 +84,6 @@ module.exports = {
 	checkupdate,
 	accesobj,
 	getapi,
-	checkfile
+	checkfile,
+	db
 }

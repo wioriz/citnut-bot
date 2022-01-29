@@ -3,8 +3,8 @@ async function helpCmd (cmd) {
 	let _msg = ``;
 		_msg += `Lệnh: ${(cmd.command.length > 1) ? cmd.command.join(', ') : cmd.command[0]}\n`;
 		_msg += `Tác giả: ${cmd.author}\n`;
-		_msg += `Mô tả: ${cmd.description}\n`;
-		_msg += `Sử dụng: ${citnut.config.prefix}${cmd.command[0]} ${cmd.guide}\n`
+		_msg += `> Mô tả: ${cmd.description}\n`;
+		_msg += `> Sử dụng: ${citnut.config.prefix}${cmd.command[0]} ${cmd.guide}\n`
 	return _msg
 };
 async function checkHelp (body, index) {
@@ -28,13 +28,13 @@ module.exports = {
 	description: "hiển thị hướng dẫn",
 	guide: "",
 	allowListening: true,
-	async listen (data) {
+	async listen (data,db) {
 		let { content } = data;
 		if (content == "prefix") {
 			return citnut.send("`"+`Prefix là ${citnut.config.prefix}`+"`", data)
 		}
 	},
-	async call (data) {
+	async call (data,db) {
 		//citnut.send("`hihihi`", data);
 		let { content } = data;
 		let body = await getParam(content);
@@ -48,8 +48,10 @@ module.exports = {
 				const _emb = new citnut.Discord.MessageEmbed()
 				.setColor("RANDOM")
 				.setDescription(helpMsg)
+				.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
 
-				return citnut.send(_emb,data)
+
+				return citnut.send({embeds:[_emb]},data)
 			}
 		} else {
 			let msg = `Danh sách lệnh:\n`;
@@ -61,8 +63,9 @@ module.exports = {
 			const emb = new citnut.Discord.MessageEmbed()
 			.setColor("RANDOM")
 			.setDescription(msg)
-
-			return citnut.send(emb,data)
+			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
+			
+			return citnut.send({embeds:[emb]},data)
 		}
 	}
 }
