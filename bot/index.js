@@ -43,7 +43,15 @@ globalThis.citnut = {
 			allcommand,
 			data
 		}
-	}
+	},
+	"defaultemb": (msg) => {
+		const emb = new citnut.Discord.MessageEmbed()
+			.setColor("RANDOM")
+			.setDescription(msg)
+			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
+		return emb
+	},
+	"allowedMentions": { repliedUser: false }
 }
 async function run () {
 	try {
@@ -62,10 +70,11 @@ async function run () {
 		
 		citnut.tools.checkupdate(require("../package.json").version)
 		let errmsg = `Lệnh bạn sử dụng không tồn tại!\n> sử dụng ${citnut.config.prefix}help\n> để hiển thị danh sách lệnh `
-		const emb = new citnut.Discord.MessageEmbed()
-			.setColor("RANDOM")
-			.setDescription(errmsg)
-			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
+		const emb = citnut.defaultemb(errmsg)
+		//const emb = new citnut.Discord.MessageEmbed()
+		//	.setColor("RANDOM")
+		//	.setDescription(errmsg)
+		//	.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
 		bot.login(citnut.config.token)
 		bot.on("messageCreate", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
@@ -75,8 +84,12 @@ async function run () {
 			}
 			let db = tools.db
 			let {get,write} = db
-			if (!get.user[message.author.id] || get.user[message.author.id] != message.author.tag) {
-				get.user[message.author.id]=message.author.tag
+			
+			if (!get.user[message.author.id] || typeof get.user[message.author.id] != "object") {
+				get.user[message.author.id] = {
+					tag: message.author.tag,
+					money: 0
+				}
 				write(get)
 			}
 			let keyword = citnut.tools.getKeyword(message.content)
@@ -92,8 +105,8 @@ async function run () {
 					await index.item.listen (message,db)
 				}
 			}
-			if (message.content == citnut.config.prefix) { return citnut.send({embeds:[emb]}, message) }
-			if (!checkkeyw.includes(true) && message.content.indexOf(citnut.config.prefix) == 0) { return citnut.send({embeds:[emb]}, message)}
+			if (message.content == citnut.config.prefix) { return message.reply({embeds:[emb], allowedMentions: citnut.allowedMentions}) }
+			if (!checkkeyw.includes(true) && message.content.indexOf(citnut.config.prefix) == 0) { return message.reply({embeds:[emb], allowedMentions: citnut.allowedMentions})}
 		})
 	} catch (e) { console.error(e) }
 }

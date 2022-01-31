@@ -29,29 +29,22 @@ module.exports = {
 	guide: "",
 	allowListening: true,
 	async listen (data,db) {
-		let { content } = data;
+		let { content } = data
 		if (content == "prefix") {
-			return citnut.send("`"+`Prefix là ${citnut.config.prefix}`+"`", data)
+			return data.reply({embeds:[citnut.defaultemb("prefix là: "+citnut.config.prefix)],allowedMentions:citnut.allowedMentions})
 		}
 	},
 	async call (data,db) {
-		//citnut.send("`hihihi`", data);
-		let { content } = data;
-		let body = await getParam(content);
-		let index = await citnut.plugin();
+		let { content } = data
+		let body = await getParam(content)
+		let index = await citnut.plugin()
 
 		if (body) {
-			let check = await checkHelp(body, index);
-			let helpMsg = await helpCmd(check.cmd);
+			let check = await checkHelp(body, index)
+			let helpMsg = await helpCmd(check.cmd)
 
 			if (check.result) {
-				const _emb = new citnut.Discord.MessageEmbed()
-				.setColor("RANDOM")
-				.setDescription(helpMsg)
-				.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
-
-
-				return citnut.send({embeds:[_emb]},data)
+				return data.reply({embeds:[citnut.defaultemb(helpMsg)],allowedMentions:citnut.allowedMentions})
 			}
 		} else {
 			let msg = `Danh sách lệnh:\n`;
@@ -60,12 +53,8 @@ module.exports = {
 				msg += `> ${i+1}. ${command}\n`;
 				i++
 			}
-			const emb = new citnut.Discord.MessageEmbed()
-			.setColor("RANDOM")
-			.setDescription(msg)
-			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
+			return data.reply({embeds:[citnut.defaultemb(msg)],allowedMentions:citnut.allowedMentions})
 			
-			return citnut.send({embeds:[emb]},data)
 		}
 	}
 }

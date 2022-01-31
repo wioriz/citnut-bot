@@ -29,6 +29,14 @@ const execShellCommand = (cmd) => {
     })
 }
 
+const round = (number, amount) => {
+    return parseFloat(Number(number).toFixed(amount))
+}
+
+const random = (start, end) => {
+    return Math.floor(Math.random() * (end - start + 1) + start)
+}
+
 const checkupdate = async (version) => {
 	const {data} = await axios.get('https://raw.githubusercontent.com/Citnut/demoProject/main/package.json');
 		
@@ -43,6 +51,7 @@ const checkupdate = async (version) => {
 
 const accesobj = (arr, obj) => {
 	try {
+		if (!arr || arr[0] == "") return obj
 		let res = ""
 		for (all of arr) {
 			if (obj[all]) { res = obj[all] } else { res = res[all]}
@@ -81,6 +90,8 @@ module.exports = {
 	getKeyword,
 	getFile,
 	execShellCommand,
+	round,
+	random,
 	checkupdate,
 	accesobj,
 	getapi,

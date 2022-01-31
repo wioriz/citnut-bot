@@ -9,6 +9,9 @@
 		"girl": [
 			"https://manhict.tech/images/world/vietnam?apikey=KeyTest",
 			["url"]
+		],
+		"eco": [
+		  "https://raw.githubusercontent.com/Citnut/Citnut/main/KB2ABotECOConfig.json",[""]
 		]
 	}
 }

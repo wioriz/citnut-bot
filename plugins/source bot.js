@@ -1,12 +1,12 @@
 module.exports = {
-	command: ["source", "src"],
+	command: ["srouce", "src"],
 	author: "Citnut",
-	description: "xem source của bot ở đâu",
+	description: "xem srouce gốc của bot",
 	guide: "",
 	allowListening: false,
-	async listen (data) {
+	async listen (data,db) {
 	},
-	async call (data) {
-		citnut.send("https://github.com/Citnut/demoProject",data)
+	async call (data,db) {
+		return data.reply({content:"https://github.com/Citnut/demoProject",allowedMentions:citnut.allowedMentions})		
 	}
 }

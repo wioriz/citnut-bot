@@ -15,7 +15,6 @@ module.exports = {
 	async listen (data,db) {
 	},
 	async call (data,db) {
-		const { send } = citnut;
 		let prefix = citnut.config.prefix,
 			time = process.uptime(),
 			day = Math.floor(time/(60*60*24)),
@@ -33,14 +32,9 @@ module.exports = {
 			hoatdong+=(minutes>0)?`${minutes} phút\n`:""
 			hoatdong+=seconds+" giây"
 
-			const emb = new citnut.Discord.MessageEmbed()
-			.setColor("RANDOM")
-			.setDescription(`bot đã hoạt động được:\n${hoatdong}\n> Prefix: ${prefix}\n> Ram đang sử dụng: ${ram.toFixed(1)}MB\n> Ping: ${Date.now() - timeStart}ms`)
-			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
-			
-
-			send(!res?{embeds:[emb]}:{embeds:[emb.setThumbnail(res)]},data)
-			
+			const emb = citnut.defaultemb(`bot đã hoạt động được:\n${hoatdong}\n> Prefix: ${prefix}\n> Ram đang sử dụng: ${ram.toFixed(1)}MB\n> Ping: ${Date.now() - timeStart}ms`)
+	
+			return data.reply({embeds:[!res?emb:emb.setThumbnail(res)],allowedMentions:citnut.allowedMentions})		
 		}catch (e) {
 			send("`"+`đã xảy ra lỗi`+"`", data);
 			console.error(e)
