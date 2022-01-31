@@ -4,22 +4,8 @@ module.exports = {
 	author: "Citnut",
 	description: "kiếm tiền",
 	guide: "",
-	allowListening: true,
+	allowListening: false,
 	async listen (data,db) {
-        if (data.author.bot) return
-        let {get,write} = db
-        if (!get.eco) {
-            get.eco = {}
-            write(get)
-        }
-        if (!get.eco.work) {
-            get.eco.work = {}
-            write(get)
-        }
-        if (!get.eco.work[data.author.id]) {
-            get.eco.work[data.author.id] = 0
-            write(get)
-        }
 	},
 	async call (data,db) {
 		const {work,cooldown} = await citnut.tools.getapi("eco",data,false)
