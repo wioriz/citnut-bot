@@ -7,6 +7,10 @@ module.exports = {
 	async listen (data,db) {
 	},
 	async call (data,db) {
-		return data.reply({content:"https://github.com/Citnut/demoProject",allowedMentions:citnut.allowedMentions})		
+		try {
+			data.reply({content:"https://github.com/Citnut/demoProject",allowedMentions:citnut.allowedMentions})		
+		} catch {
+			citnut.send("https://github.com/Citnut/demoProject",data)
+		}
 	}
 }
