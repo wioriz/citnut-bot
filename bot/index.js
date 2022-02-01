@@ -12,6 +12,7 @@ const recursive = require("recursive-readdir")
 bot.on("warn", console.warn)
 bot.on("error", console.error)
 bot.on("ready", function(){
+	bot.user.setActivity((config.prefix+"help"),{type:2})
 	console.log(` [CITNUT] đăng nhập thành công:`.green, `${bot.user.tag}\n`.magenta, `[CITNUT] prefix: ${citnut.config.prefix}`.green)
 	fakesv()
     console.log(" [CITNUT] đã tạo thành công trang web giả của bot".green)
@@ -71,10 +72,6 @@ async function run () {
 		citnut.tools.checkupdate(require("../package.json").version)
 		let errmsg = `Lệnh bạn sử dụng không tồn tại!\n> sử dụng ${citnut.config.prefix}help\n> để hiển thị danh sách lệnh `
 		const emb = citnut.defaultemb(errmsg)
-		//const emb = new citnut.Discord.MessageEmbed()
-		//	.setColor("RANDOM")
-		//	.setDescription(errmsg)
-		//	.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
 		bot.login(citnut.config.token)
 		bot.on("messageCreate", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
