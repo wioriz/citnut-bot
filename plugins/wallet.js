@@ -1,4 +1,4 @@
-const {round,random} = citnut.tools
+
 module.exports = {
 	command: ["wallet"],
 	author: "Citnut",

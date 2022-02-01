@@ -1,5 +1,5 @@
 module.exports = {
-	command: ["srouce", "src"],
+	command: ["source", "src"],
 	author: "Citnut",
 	description: "xem srouce gốc của bot",
 	guide: "",
