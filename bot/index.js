@@ -5,7 +5,7 @@ tools.checkfile("./config.json",JSON.stringify(require("./defaultconfig.json"),n
 tools.checkfile("./data.json", JSON.stringify(require("./defaultdata.json"),null,2))
 const config = require("../config.json")
 const {Client, Intents} = require("discord.js")
-const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES]})
+const bot = new Client({partials: ["CHANNEL"],intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES]})
 const fakesv = require("./fakesv.js")
 const recursive = require("recursive-readdir")
 
