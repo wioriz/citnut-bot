@@ -73,6 +73,13 @@ async function run () {
 		let errmsg = `Lệnh bạn sử dụng không tồn tại!\n> sử dụng ${citnut.config.prefix}help\n> để hiển thị danh sách lệnh `
 		const emb = citnut.defaultemb(errmsg)
 		bot.login(citnut.config.token)
+		bot.on("interactionCreate", async interaction => {
+			for (const index of load) {
+				if (index.item.allowInteraction) {
+					await index.item.interaction(interaction)
+				}
+			}
+		})
 		bot.on("messageCreate", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
 				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
