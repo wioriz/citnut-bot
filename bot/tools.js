@@ -77,6 +77,8 @@ const checkfile = (file, data) => {
 		console.log(" [CITNUT] đã khởi tạo thành công file".yellow,file)
 	} else {console.log(" [CITNUT] đã phát hiện file".yellow,file)}
 }
+tools.checkfile("./data.json", JSON.stringify(require("./defaultdata.json"),null,2))
+
 
 const db = {
 	get: require("../data.json"),
