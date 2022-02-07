@@ -2,9 +2,10 @@ const colors = require("colors")
 const axios = require("axios")
 const tools = require("./tools.js")
 tools.checkfile("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
+tools.checkfile("./data.json", JSON.stringify(require("./defaultdata.json"),null,2))
 const config = require("../config.json")
 const {Client, Intents} = require("discord.js")
-const bot = new Client({partials: ["CHANNEL"],intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES]})
+const bot = new Client({partials: ["CHANNEL"],intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES,Intents.FLAGS.GUILD_VOICE_STATES]})
 const fakesv = require("./fakesv.js")
 const recursive = require("recursive-readdir")
 
@@ -115,3 +116,5 @@ async function run () {
 }
 
 run()
+
+globalThis.bot = bot
