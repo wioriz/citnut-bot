@@ -29,6 +29,7 @@ module.exports = {
 	guide: "",
 	allowListening: true,
 	async listen (data,db) {
+		if (data.author.bot) return
 		let { content } = data
 		if (content == "prefix") {
 			return data.reply({embeds:[citnut.defaultemb("prefix là: "+citnut.config.prefix)],allowedMentions:citnut.allowedMentions})
