@@ -1,6 +1,6 @@
 {
 	"name": "citnutbot",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "adu j ngu vay",
 	"main": "bot/index.js",
 	"scripts": {
@@ -18,6 +18,8 @@
 	"license": "MIT",
 	"homepage": "",
 	"dependencies": {
+		"discord-player": "^5.2.2",
+		"discord/opus":"^0.7.0",
 		"axios": "^0.22.0",
 		"colors": "^1.4.0",
 		"discord.js": "^13.6.0",
