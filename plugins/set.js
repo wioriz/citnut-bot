@@ -17,7 +17,7 @@ module.exports = {
         let method = ["+","-","="]
         let _method = args[1]
         let value = Number(args[2])
-        let mention = args[3].slice(2,-1)
+        let mention = args[3].slice(3,-1)
         if (!method.includes(_method) || !_method) return data.reply(errmsg)
         if (!value) return data.reply(errmsg)
         if (!mention || !get.user[mention]) return data.reply(errmsg)
