@@ -63,7 +63,8 @@ async function run () {
 		)
 		let files = await citnut.plugin()
 		let load = files.data
-		
+		let db = tools.db
+		let {get,write} = db
 		console.log(` [CITNUT]`.yellow,`plugin loading:`.green)
 		for (const file of load) { console.log(" [CITNUT] plugin".green,`${file.item.command[0]}(${file.item.description})`.yellow,"by".green,`${file.item.author}`.yellow) }
 		console.log(` [CITNUT]`.yellow,`plugin loaded!`.green)
@@ -72,12 +73,22 @@ async function run () {
 		let errmsg = `Lệnh bạn sử dụng không tồn tại!\n> sử dụng ${citnut.config.prefix}help\n> để hiển thị danh sách lệnh `
 		const emb = citnut.defaultemb(errmsg)
 		bot.login(citnut.config.token)
-		bot.on("interactionCreate", async interaction => {
+		bot.on("interactionCreate", async interaction => { 
+		if (!get.user[interaction.user.id] || typeof get.user[interaction.user.id] != "object") {
+				get.user[interaction.user.id] = {
+					tag: interaction.user.username,
+					money: 0
+				}
+				write(get)
+			}
+
 			for (const index of load) {
 				if (index.item.allowInteraction) {
 					await index.item.interaction(interaction)
 				}
 			}
+
+
 		})
 		bot.on("messageCreate", async message => {
 			if (!message.author.bot && message.content.indexOf(citnut.config.prefix) == 0) {
@@ -85,8 +96,7 @@ async function run () {
 			} else {
 				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
-			let db = tools.db
-			let {get,write} = db
+		
 			
 			if (!get.user[message.author.id] || typeof get.user[message.author.id] != "object") {
 				get.user[message.author.id] = {
