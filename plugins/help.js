@@ -48,12 +48,8 @@ module.exports = {
 				return data.reply({embeds:[citnut.defaultemb(helpMsg)],allowedMentions:citnut.allowedMentions})
 			}
 		} else {
-			let msg = `Danh sách lệnh:\n`;
-			let i = 0;
-			for (const command of index.allcommand) {
-				msg += `> ${i+1}. ${command}\n`;
-				i++
-			}
+			let msg = `Danh sách lệnh:\n`
+			msg += index.allcommand.join(", ")
 			return data.reply({embeds:[citnut.defaultemb(msg)],allowedMentions:citnut.allowedMentions})
 			
 		}
