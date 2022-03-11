@@ -38,7 +38,7 @@ module.exports = {
         let tag = citnut.tools.getParam(data.content)
         let avt = (data.mentions.users.first() || data.author).displayAvatarURL({size: 1024, dynamic: true})
         if(tag.includes("@")) {
-            let id = tag.slice(2,-1)
+            let id = tag.slice(3,-1)
             if(!get.user[id]) return data.reply({embeds:[citnut.defaultemb(`id: ${data.author.id}\n> chưa có thông tin về người dùng này`)],allowedMentions:citnut.allowedMentions})
             return data.reply({embeds:[citnut.defaultemb(`id: ${id}\n> số dư của người dùng này là ${get.user[id].money} 💵`).setThumbnail(avt)],allowedMentions:citnut.allowedMentions})
 
