@@ -1,7 +1,7 @@
-const {round} = citnut.tools
 module.exports = {
 	command: ["set","let"],
 	author: "Citnut",
+    permission: "admin",// admin | adminsv | false
 	description: "chỉnh sửa tiền",
 	guide: "<+|-|=> <value> [@mention]",
 	allowListening: false,
