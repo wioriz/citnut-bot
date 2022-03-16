@@ -74,14 +74,14 @@ async function run () {
 		const emb = citnut.defaultemb(errmsg)
 		bot.login(citnut.config.token)
 		bot.on("interactionCreate", async interaction => { 
-		if (!get.user[interaction.user.id] || typeof get.user[interaction.user.id] != "object") {
+			if (!get.user[interaction.user.id] || typeof get.user[interaction.user.id] != "object") {
 				get.user[interaction.user.id] = {
 					tag: interaction.user.username,
 					money: 0
 				}
 				write(get)
 			}
-
+			if (get.user[interaction.user.id].mutesv || get.user[interaction.user.id].mute) return
 			for (const index of load) {
 				if (index.item.allowInteraction) {
 					await index.item.interaction(interaction)
@@ -96,7 +96,6 @@ async function run () {
 			} else {
 				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
-		
 			
 			if (!get.user[message.author.id] || typeof get.user[message.author.id] != "object") {
 				get.user[message.author.id] = {
@@ -105,21 +104,21 @@ async function run () {
 				}
 				write(get)
 			}
+			if (get.user[message.author.id].mutesv || get.user[message.author.id].mute) return
+
 			let keyword = citnut.tools.getKeyword(message.content)
-			let checkkeyw = []
 			for (const index of load) {
-				
-				if (message.content.indexOf(citnut.config.prefix) == 0 && index.item.command.includes(keyword)) {
-					checkkeyw.push(true)			
-					await index.item.call (message,db)
-				} else { checkkeyw.push(false) }
-									
 				if (index.item.allowListening) {
 					await index.item.listen (message,db)
 				}
 			}
 			if (message.content == citnut.config.prefix) { return message.reply({embeds:[emb], allowedMentions: citnut.allowedMentions}) }
-			if (!checkkeyw.includes(true) && message.content.indexOf(citnut.config.prefix) == 0) { return message.reply({embeds:[emb], allowedMentions: citnut.allowedMentions})}
+			if (message.content.startsWith(citnut.config.prefix)) {
+				let findcmd = load.find(index => index.item.command.includes(keyword))
+				if (findcmd) {await findcmd.item.call(message,db)}
+				else {return message.reply({embeds:[emb], allowedMentions: citnut.allowedMentions})}
+			}
+		
 		})
 	} catch (e) { console.error(e) }
 }
