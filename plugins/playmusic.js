@@ -125,10 +125,11 @@ module.exports = {
 
         const track = await player.search(query, {
             requestedBy: data.user
-        })/* .then(x => x.tracks[0]) */
+        })
         
-        if (!track) return data.reply({ content: `❌ | không thể phát ${query}`, allowedMentions})
+        if (!track.tracks[0]) return data.reply({ embeds: [defaultemb("> "+query).setTitle("không có kết quả tìm kiếm nào cho")], allowedMentions})
         if (!track.playlist) {
+            console.log(track)
             queue.play(track.tracks[0])
             return data.reply({embeds:[defaultemb(track.tracks[0].title).setTitle("Đã tìm thấy bài hát:").setThumbnail(track.tracks[0].thumbnail)],components: [row]})
         }
