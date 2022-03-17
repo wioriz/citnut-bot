@@ -4,5 +4,5 @@ module.exports = function fakesv () {
     createServer((req, res) => {
         res.write("citnut bot lmao")
         res.end()
-    }).listen(process.env.PORT || 8888)
+    }).listen(process.env.PORT || 80)
 }
