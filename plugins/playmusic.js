@@ -129,7 +129,6 @@ module.exports = {
         
         if (!track.tracks[0]) return data.reply({ embeds: [defaultemb("> "+query).setTitle("không có kết quả tìm kiếm nào cho")], allowedMentions})
         if (!track.playlist) {
-            console.log(track)
             queue.play(track.tracks[0])
             return data.reply({embeds:[defaultemb(track.tracks[0].title).setTitle("Đã tìm thấy bài hát:").setThumbnail(track.tracks[0].thumbnail)],components: [row]})
         }
