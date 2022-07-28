@@ -80,12 +80,8 @@ const checkfile = (file, data) => {
 checkfile("./data.json", JSON.stringify(require("./defaultdata.json"),null,2))
 
 
-const db = {
-	get: require("../data.json"),
-	write: (c) => {
-		try {fs.writeFileSync("./data.json",JSON.stringify(c,null,2))} catch {console.error}
-	}
-}
+const db = () => JSON.parse(fs.readFileSync("./data.json", {encoding: "utf-8"}))
+
 
 module.exports = {
 	getParam,

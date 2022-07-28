@@ -11,30 +11,28 @@ module.exports = {
 	async call (data,db) {
         let allowedMentions = citnut.allowedMentions
         if (!citnut.config.admin.includes(data.author.id)) return data.reply({embeds:[citnut.defaultemb("bạn không đủ quyền sử dụng lệnh này")],allowedMentions})
-        let {get,write} = db
+      
         let errmsg = {embeds:[citnut.defaultemb("vui lòng xem hướng dẫn tại "+citnut.config.prefix+"help set").setTitle("Sai phương thức!")],allowedMentions}
         let args =  data.content.split(" ")
+       
         let method = ["+","-","="]
         let _method = args[1]
         let value = Number(args[2])
-        let mention = args[3].slice(3,-1)
         if (!method.includes(_method) || !_method) return data.reply(errmsg)
         if (!value) return data.reply(errmsg)
-        if (!mention || !get.user[mention]) return data.reply(errmsg)
+        let mention = args[3].slice(3,-1)
+        if (!mention || !db.user[mention]) return data.reply(errmsg)
         let avt = (data.mentions.users.first() || data.author).displayAvatarURL({size: 1024, dynamic: true})
         
         switch (_method) {
             case "+":
-                get.user[mention].money += value
-                write(get)
+                db.user[mention].money += value
             break
             case "-":
-                get.user[mention].money -= value
-                write(get)
+                db.user[mention].money -= value
             break
             case "=":
-                get.user[mention].money = value
-                write(get)
+                db.user[mention].money = value
             break
             default:
             break

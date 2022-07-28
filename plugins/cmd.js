@@ -8,10 +8,9 @@ module.exports = {
 	guide: "",
 	allowListening: true,
     allowInteraction: true,
-    async interaction (data) {
+    async interaction (data, db) {
         let {customId} = data
         if (!data.isButton()) return
-        const {get} = citnut.tools.db
         let {id} = data.user
 
         let avt = (data.user).displayAvatarURL({size: 1024, dynamic: true})
@@ -21,10 +20,10 @@ module.exports = {
                 data.update({embeds:[citnut.defaultemb(`id: ${id}\n> số dư của bạn là ${get.user[id].money} 💵`).setThumbnail(avt)],allowedMentions})
             break
             case "b":
-                data.update(await require("./work.js").workfunc(data,id,avt))
+                data.update(await require("./work.js").workfunc(data,id,avt,db))
             break
             case "c":
-                data.update(await require("./crime.js").crimefunc(data,id,avt))
+                data.update(await require("./crime.js").crimefunc(data,id,avt,db))
             break
             default:
             break

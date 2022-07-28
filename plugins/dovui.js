@@ -10,7 +10,7 @@ if (!config.cd["dovui"]) {
     config.cd["dovui"] = 30
 }
 if (!config.api.dovui) {
-    config.api.dovui = ["https://manhict.tech/game/dovuiv1", ["data"]]
+    config.api.dovui = ["https://manhict.tech/api/dovui1?apikey=H8ew2W6e", ["result"]]
 }
 
 const row = (a,b,c,d) => {
@@ -28,75 +28,71 @@ module.exports = {
 	guide: "",
 	allowListening: true,
     allowInteraction: true,
-    async interaction (data) {
+    async interaction (data, db) {
         let {customId} = data
         if (!data.isButton()||!["aa","bb","cc","dd"].includes(customId)) return
-        const {get} = citnut.tools.db
         let avt = (data.user).displayAvatarURL({size: 1024, dynamic: true})
 
         const checkdapan = (luachon,datagame) => {
-            let {cauhoi,a,b,c,d,dapan} = datagame
+            let {questions,a,b,c,d,dapan} = datagame
 
-            if (luachon == dapan) {
-		        data.update({embeds:[citnut.defaultemb(cauhoi).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời chính xác "+"("+luachon+")",iconURL:avt})], allowedMentions,components:[]})
+            if (datagame[luachon] == dapan) {
+		        data.update({embeds:[citnut.defaultemb(questions).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời chính xác "+"("+luachon+")",iconURL:avt})], components:[]})
             }else {
-		        data.update({embeds:[citnut.defaultemb(cauhoi).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời sai "+"("+luachon+")",iconURL:avt})], allowedMentions, components: [row(a,b,c,d)]})
+		        data.update({embeds:[citnut.defaultemb(questions).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời sai "+"("+luachon+")",iconURL:avt})]})
             }
         }
-        let {dapan,thoigian} = get.game.dovui[data.message.channelId]
+        let {dapan,thoigian} = db.game.dovui[data.message.channelId]
         let time = new Date
         let now = time.getTime()
         let cd = round((thoigian-now)/1000,0)
-        if (cd<=0) return data.update({embeds:[citnut.defaultemb("Đã hết thời gian chờ câu trả lời").setTitle("Đáp án là "+dapan)],allowedMentions, components:[]})
+        if (cd<=0) return data.update({embeds:[citnut.defaultemb("Đã hết thời gian chờ câu trả lời").setTitle("Đáp án là "+dapan)], components:[]})
      
 
         switch (customId) {
             case "aa":
-                checkdapan("A",get.game.dovui[data.message.channelId])
+                checkdapan("A",db.game.dovui[data.message.channelId])
             break
             case "bb":
-                checkdapan("B",get.game.dovui[data.message.channelId])
+                checkdapan("B",db.game.dovui[data.message.channelId])
             break
             case "cc":
-                checkdapan("C",get.game.dovui[data.message.channelId])
+                checkdapan("C",db.game.dovui[data.message.channelId])
             break
             case "dd":
-                checkdapan("D",get.game.dovui[data.message.channelId])
+                checkdapan("D",db.game.dovui[data.message.channelId])
             break
             default:
             break
         }
     },
 	async listen (data,db) {
-        const {get,write} = db
-        if (!get.game) {
-            get.game = {}
-            write(get)
+        if (!db.game) {
+            db.game = {}
+            
         }
-        if (!get.game.dovui){
-            get.game.dovui = {}
-            write(get)
+        if (!db.game.dovui){
+            db.game.dovui = {}
+            
         }
-        if (!get.game.dovui[data.channel.id]){
-            get.game.dovui[data.channel.id] = {
+        if (!db.game.dovui[data.channel.id]){
+            db.game.dovui[data.channel.id] = {
                 thoigian:0
             }
-            write(get)
+            
         }
 
 	},
 	async call (data,db) {
-        const {cauhoi,a,b,c,d,dapan1} = await citnut.tools.getapi("dovui",data,false)
-        const {get,write} = db
+        const {questions,a,b,c,d,dapan} = await citnut.tools.getapi("dovui",data,false)
         let time = new Date
         let now = time.getTime()
-        let cd = round((get.game.dovui[data.channel.id].thoigian-now)/1000,0)
+        let cd = round((db.game.dovui[data.channel.id].thoigian-now)/1000,0)
         if (cd>0) return data.reply({embeds:[citnut.defaultemb("Thời gian chờ câu trả lời").setTitle("Còn "+cd+"s!")],allowedMentions})
-		data.reply({embeds:[citnut.defaultemb(cauhoi)], allowedMentions, components: [row(a,b,c,d)]})
-        get.game.dovui[data.channel.id] = {
-            cauhoi,a,b,c,d,dapan:dapan1,
+		data.reply({embeds:[citnut.defaultemb(questions)], allowedMentions, components: [row(a,b,c,d)]})
+        db.game.dovui[data.channel.id] = {
+            questions,"A":a,"B":b,"C":c,"D":d,dapan,
             thoigian:now+(citnut.config.cd.dovui*1000)
         }
-        write(get)
 	}
 }

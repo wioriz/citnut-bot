@@ -7,6 +7,7 @@ const {Client, Intents} = require("discord.js")
 const bot = new Client({partials: ["CHANNEL"],intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES,Intents.FLAGS.GUILD_VOICE_STATES]})
 const fakesv = require("./fakesv.js")
 const recursive = require("recursive-readdir")
+const {writeFileSync} = require("fs")
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
@@ -53,6 +54,7 @@ globalThis.citnut = {
 	},
 	"allowedMentions": { repliedUser: false }
 }
+
 async function run () {
 	try {
 		console.log(
@@ -63,8 +65,7 @@ async function run () {
 		)
 		let files = await citnut.plugin()
 		let load = files.data
-		let db = tools.db
-		let {get,write} = db
+
 		console.log(` [CITNUT]`.yellow,`plugin loading:`.green)
 		for (const file of load) { console.log(" [CITNUT] plugin".green,`${file.item.command[0]}(${file.item.description})`.yellow,"by".green,`${file.item.author}`.yellow) }
 		console.log(` [CITNUT]`.yellow,`plugin loaded!`.green)
@@ -74,17 +75,16 @@ async function run () {
 		const emb = citnut.defaultemb(errmsg)
 		bot.login(citnut.config.token)
 		bot.on("interactionCreate", async interaction => { 
-			if (!get.user[interaction.user.id] || typeof get.user[interaction.user.id] != "object") {
-				get.user[interaction.user.id] = {
+			if (!db.user[interaction.user.id] || typeof db.user[interaction.user.id] != "object") {
+				db.user[interaction.user.id] = {
 					tag: interaction.user.username,
 					money: 0
 				}
-				write(get)
 			}
-			if (get.user[interaction.user.id].mutesv || get.user[interaction.user.id].mute) return
+			if (db.user[interaction.user.id].mutesv || db.user[interaction.user.id].mute) return
 			for (const index of load) {
 				if (index.item.allowInteraction) {
-					await index.item.interaction(interaction)
+					await index.item.interaction(interaction, db)
 				}
 			}
 
@@ -96,15 +96,13 @@ async function run () {
 			} else {
 				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${message.channel.name}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
 			}
-			
-			if (!get.user[message.author.id] || typeof get.user[message.author.id] != "object") {
-				get.user[message.author.id] = {
+			if (!db.user[message.author.id] || typeof db.user[message.author.id] != "object") {
+				db.user[message.author.id] = {
 					tag: message.author.tag,
 					money: 0
 				}
-				write(get)
 			}
-			if (get.user[message.author.id].mutesv || get.user[message.author.id].mute) return
+			if (db.user[message.author.id].mutesv || db.user[message.author.id].mute) return
 
 			let keyword = citnut.tools.getKeyword(message.content)
 			for (const index of load) {
@@ -120,9 +118,13 @@ async function run () {
 			}
 		
 		})
+
 	} catch (e) { console.error(e) }
 }
 
+let db = tools.db()
+let save = () => writeFileSync("./data.json", JSON.stringify(db))
 run()
+setInterval(save, 5000)
 
 globalThis.bot = bot

@@ -16,10 +16,9 @@ module.exports = {
 	async call (data,db) {
 		let {id} = data.author
 		let muteId = getParam(data.content)
-		let {get,write} = db				
 		const checkId = () => {
-			if (!get.user[muteId]) {
-				if (!get.user[muteId.slice(3,-1)]) return false
+			if (!db.user[muteId]) {
+				if (!db.user[muteId.slice(3,-1)]) return false
 				return muteId.slice(3,-1)
 			}else return muteId
 		}
@@ -27,18 +26,16 @@ module.exports = {
 		if (data.guild) {
 			if (id == data.guild.ownerId || config.admin.includes(id)) {
 				if (!mute) return data.channel.send("sai id")
-				if (get.user[mute].mutesv) return data.channel.send({embeds:[defaultemb(`người dùng ${get.user[mute].tag} hiện không được sử dụng bot tại máy chủ này`)]})
-				get.user[mute].mutesv = true
-				write(get)
-				return data.channel.send({embeds: [defaultemb(`người dùng: ${get.user[mute].tag}\nđã bị mute và không thể sử dụng bot tại máy chủ này`).setThumbnail((data.author).displayAvatarURL({size: 1024, dynamic: true}))]})
+				if (db.user[mute].mutesv) return data.channel.send({embeds:[defaultemb(`người dùng ${db.user[mute].tag} hiện không được sử dụng bot tại máy chủ này`)]})
+				db.user[mute].mutesv = true
+				return data.channel.send({embeds: [defaultemb(`người dùng: ${db.user[mute].tag}\nđã bị mute và không thể sử dụng bot tại máy chủ này`).setThumbnail((data.author).displayAvatarURL({size: 1024, dynamic: true}))]})
 			}else return data.channel.send("bạn không đủ quyền sử dụng lệnh này!")
 		}else {
 			if (!config.admin.includes(id)) return data.channel.send("bạn không đủ quyền sử dụng lệnh này!")
 			if (!mute) return data.channel.send("sai id")
-			if (get.user[mute].mute) return data.channel.send({embeds:[defaultemb(`người dùng ${get.user[mute].tag} hiện không được sử dụng bot này`)]})
-			get.user[mute].mute = true
-			write(get)
-			return data.channel.send({embeds: [defaultemb(`người dùng: ${get.user[mute].tag}\nđã bị mute và không thể sử dụng bot`)]})
+			if (db.user[mute].mute) return data.channel.send({embeds:[defaultemb(`người dùng ${db.user[mute].tag} hiện không được sử dụng bot này`)]})
+			db.user[mute].mute = true
+			return data.channel.send({embeds: [defaultemb(`người dùng: ${db.user[mute].tag}\nđã bị mute và không thể sử dụng bot`)]})
 		}
 	}
 }
