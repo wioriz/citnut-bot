@@ -11,8 +11,14 @@ const {writeFileSync} = require("fs")
 
 bot.on("warn", console.warn)
 bot.on("error", console.error)
-bot.on("ready", function(){
+bot.on("ready", async () =>{
 	bot.user.setActivity((config.prefix+"help"),{type:2})
+	const slashplugin = await citnut.plugin()
+	let available = []
+	for (const data of slashplugin.data) {
+		if (data.item.slashmode) available.push((data.item.slashconfig).toJSON())
+	}
+	bot.application.commands.set(available)
 	console.log(` [CITNUT] đăng nhập thành công:`.green, `${bot.user.tag}\n`.magenta, `[CITNUT] prefix: ${citnut.config.prefix}`.green)
 	fakesv()
     console.log(" [CITNUT] đã tạo thành công trang web giả của bot".green)
@@ -83,11 +89,9 @@ async function run () {
 			}
 			if (db.user[interaction.user.id].mutesv || db.user[interaction.user.id].mute) return
 			for (const index of load) {
-				if (index.item.allowInteraction) {
-					await index.item.interaction(interaction, db)
-				}
+				if (index.item.allowInteraction) await index.item.interaction(interaction, db)
+				if (index.item.slashmode && interaction.isCommand() && interaction.commandName == index.item.command[0]) await index.item.slashHandle(interaction, db)
 			}
-
 
 		})
 		bot.on("messageCreate", async message => {

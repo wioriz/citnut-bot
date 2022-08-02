@@ -1,5 +1,6 @@
 const { getParam } = citnut.tools
 const { config, allowedMentions, plugin, defaultemb } = citnut
+const {SlashCommandBuilder} = require("@discordjs/builders")
 
 async function helpCmd (cmd) {
 	let _msg = ``
@@ -23,14 +24,31 @@ async function checkHelp (body, index) {
 		result,
 		cmd
 	}
-};
+}
+
+const command = ["help", "h"], description = "hiển thị trang hướng dẫn"
 
 module.exports = {
-	command: ["help", "h"],
+	command,
 	author: "Citnut",
-	description: "hiển thị hướng dẫn",
+	description,
 	guide: "",
 	allowListening: true,
+	slashmode: true,
+	slashconfig: new SlashCommandBuilder()
+		.setName(command[0])
+		.setDescription(description)
+		.addStringOption(options => options
+			.setName("string")
+			.setDescription("tên lệnh")
+			.setRequired(false)
+		)
+	,
+	async slashHandle (data, db) {
+		const content = data.options._hoistedOptions[0]?data.options._hoistedOptions[0].value:false
+		return await this.helpFunc(data, content, data.user.id)
+	}
+	,
 	async listen (data,db) {
 		if (data.author.bot) return
 		let { content } = data
@@ -38,9 +56,8 @@ module.exports = {
 			return data.reply({embeds:[defaultemb("prefix là: "+config.prefix)],allowedMentions})
 		}
 	},
-	async call (data,db) {
-		let { content } = data
-		let body = await getParam(content)
+	async call (data, db) {return await this.helpFunc(data, await getParam(data.content), data.author.id)},
+	async helpFunc (data, body, id) {
 		let index = await plugin()
 
 		if (body) {
@@ -49,6 +66,7 @@ module.exports = {
 				let helpMsg = await helpCmd(check.cmd)	
 				return data.reply({embeds:[defaultemb(helpMsg)],allowedMentions})
 			}
+			return data.reply({embeds:[defaultemb("không tìm thấy lệnh: "+body)],allowedMentions})
 		} else {
 			let msg = `Danh sách lệnh:`
 			let arrCmd = {
@@ -64,8 +82,8 @@ module.exports = {
 			msg += "\n> "
 			msg += arrCmd.user.join(", ")
 			msg += "\n"
-			if (config.admin.includes(data.author.id)) msg += `admin:\n> ${arrCmd.admin.join(", ")}\n`
-			if (data.guild?(data.guild.ownerId.includes(data.author.id)):false) msg += `owner sv:\n> ${arrCmd.ownersv.join(", ")}`
+			if (config.admin.includes(id)) msg += `admin:\n> ${arrCmd.admin.join(", ")}\n`
+			if (data.guild?( data.guild.ownerId.includes(id)):false) msg += `owner sv:\n> ${arrCmd.ownersv.join(", ")}`
 			
 			return data.reply({embeds:[defaultemb(msg)],allowedMentions})
 			

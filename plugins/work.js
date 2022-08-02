@@ -1,10 +1,23 @@
 const {round,random} = citnut.tools
+const {SlashCommandBuilder} = require("@discordjs/builders")
+const command = ["work"], description = "làm việc chăm chỉ :>"
+
 module.exports = {
-	command: ["work"],
+	command,
 	author: "Citnut",
-	description: "kiếm tiền",
+	description,
 	guide: "",
 	allowListening: false,
+    slashmode: true,
+    slashconfig: new SlashCommandBuilder()
+        .setName(command[0])
+        .setDescription(description)
+    ,
+    async slashHandle (data, db) {
+        return data.reply(await this.workfunc(data, data.user.id, (data.user).displayAvatarURL({size: 1024, dynamic: true}), db))
+    },
+    async interaction (data, db) {
+    },
     async workfunc (data,id, avt, db) {
         const {work,cooldown} = await citnut.tools.getapi("eco",data,false)
         const time = new Date
