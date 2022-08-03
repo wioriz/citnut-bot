@@ -1,21 +1,30 @@
-let {totalmem, freemem} = require("os")
+const {totalmem, freemem} = require("os")
+const { SlashCommandBuilder } = require("@discordjs/builders")
 
+
+const command = ["uptime", "upt"], description = "xem uptime của bot"
 module.exports = {
-	command: ["uptime", "upt"],
+	command,
 	author: "Citnut",
-	description: "xem uptime của bot",
+	description,
 	guide: "",
 	allowListening: false,
+	slashmode: true,
+	slashconfig: new SlashCommandBuilder()
+		.setName(command[0])
+		.setDescription(description)
+	,
+	async slashHandle (data, db) {return await this.call(data,db,data.user.id)},
 	async listen (data,db) {
 	},
-	async call (data,db) {
+	async call (data,db,id) {
 		let price = citnut.config.price.uptime
 
-		if(db.user[data.author.id].money<price) {
-			let thieutien = "bạn còn thiếu "+(price-db.user[data.author.id].money)+" 💵 để sử dụng lệnh này"
+		if(db.user[id?id:data.author.id].money<price) {
+			let thieutien = "bạn còn thiếu "+(price-db.user[id?id:data.author.id].money)+" 💵 để sử dụng lệnh này"
 			return data.reply({embeds:[citnut.defaultemb(thieutien)],allowedMentions:citnut.allowedMentions})
 		}else {
-			db.user[data.author.id].money-=price
+			db.user[id?id:data.author.id].money-=price
 		}
 
 		let prefix = citnut.config.prefix,
@@ -41,7 +50,7 @@ module.exports = {
 	
 			return data.reply({embeds:[!res?emb:emb.setThumbnail(res)],allowedMentions:citnut.allowedMentions})		
 		}catch (e) {
-			send("`"+`đã xảy ra lỗi`+"`", data);
+			send("`"+`đã xảy ra lỗi`+"`", data)
 			console.error(e)
 		}
 	}

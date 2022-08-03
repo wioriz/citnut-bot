@@ -29,9 +29,7 @@ globalThis.citnut = {
 	Discord: require("discord.js"),
 	config,
 	tools,
-	send: function (replyMSG, message) {
-		try { message.channel.send(replyMSG) } catch (e) { console.error(e) }
-	},
+	send: function (replyMSG, message) {return message.reply({embeds:[citnut.defaultemb(replyMSG)], allowedMentions:citnut.allowedMentions})},
 	plugin: async function () {
 		let data = []
 		let allcommand = []

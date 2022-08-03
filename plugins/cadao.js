@@ -1,15 +1,23 @@
+const {SlashCommandBuilder} = require("@discordjs/builders")
+const command = ["cadao"], description = "ca dao lmao :))"
 
 module.exports = {
-	command: ["cadao"],
+	command,
 	author: "Citnut",
-	description: "ca dao VN",
+	description,
 	guide: "",
 	allowListening: false,
+	slashmode: true,
+	slashconfig: new SlashCommandBuilder()
+		.setName(command[0])
+		.setDescription(description)
+	,
+	async slashHandle (data, db) {return await this.call(data)},
 	async listen (data,db) {
 	},
 	async call (data,db) {
 		const res = await citnut.tools.getapi("cadao",data,false)
-		if (!res) return citnut.send("`"+"chưa có api này trong config"+"`", data)
+		if (!res) return data.reply("đã xảy ra lỗi")
 		const emb =  citnut.defaultemb(res)
 		
 		return data.reply({embeds:[emb], allowedMentions: citnut.allowedMentions})

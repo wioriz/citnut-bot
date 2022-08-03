@@ -1,13 +1,21 @@
 const {MessageActionRow, MessageButton} = citnut.Discord
 const {allowedMentions} = citnut
+const {SlashCommandBuilder} = require("@discordjs/builders")
+const command = ["eco"], description = "trang eco cmd"
 
 module.exports = {
-	command: ["cmd"],
+	command,
 	author: "Citnut",
-	description: "test",
+	description,
 	guide: "",
-	allowListening: true,
+	allowListening: false,
     allowInteraction: true,
+    slashmode: true,
+	slashconfig: new SlashCommandBuilder()
+		.setName(command[0])
+		.setDescription(description)
+	,
+	async slashHandle (data, db) {return await this.call(data)},
     async interaction (data, db) {
         let {customId} = data
         if (!data.isButton()) return
@@ -17,7 +25,7 @@ module.exports = {
 
         switch (customId) {
             case "a":
-                data.update({embeds:[citnut.defaultemb(`id: ${id}\n> số dư của bạn là ${get.user[id].money} 💵`).setThumbnail(avt)],allowedMentions})
+                data.update({embeds:[citnut.defaultemb(`id: ${id}\n> số dư của bạn là ${db.user[id].money} 💵`).setThumbnail(avt)],allowedMentions})
             break
             case "b":
                 data.update(await require("./work.js").workfunc(data,id,avt,db))

@@ -1,6 +1,7 @@
 ﻿const {MessageActionRow, MessageButton} = citnut.Discord
 const {round} = citnut.tools
 const {allowedMentions} = citnut
+const {SlashCommandBuilder} = require("@discordjs/builders")
 
 let config = require("../config.json")
 if (!config.cd) {
@@ -21,22 +22,31 @@ const row = (a,b,c,d) => {
     new MessageButton().setCustomId('dd').setLabel(d).setStyle('PRIMARY')
     )
 }
+
+const command = ["dovui"], description = "trả lời câu hỏi và ko nhận được gì :)))"
+
 module.exports = {
-	command: ["dovui"],
+	command,
 	author: "Citnut",
-	description: "test",
+	description,
 	guide: "",
 	allowListening: true,
     allowInteraction: true,
+    slashmode: true,
+	slashconfig: new SlashCommandBuilder()
+		.setName(command[0])
+		.setDescription(description)
+	,
+	async slashHandle (data, db) { return await this.dovui(data, db, data.channelId) },
     async interaction (data, db) {
         let {customId} = data
         if (!data.isButton()||!["aa","bb","cc","dd"].includes(customId)) return
         let avt = (data.user).displayAvatarURL({size: 1024, dynamic: true})
 
         const checkdapan = (luachon,datagame) => {
-            let {questions,a,b,c,d,dapan} = datagame
+            let {questions,dapan} = datagame
 
-            if (datagame[luachon] == dapan) {
+            if (toString(datagame[luachon]) == toString(dapan)) {
 		        data.update({embeds:[citnut.defaultemb(questions).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời chính xác "+"("+luachon+")",iconURL:avt})], components:[]})
             }else {
 		        data.update({embeds:[citnut.defaultemb(questions).setThumbnail(avt).setFooter({text:data.user.tag+" đã trả lời sai "+"("+luachon+")",iconURL:avt})]})
@@ -84,15 +94,18 @@ module.exports = {
 
 	},
 	async call (data,db) {
+        return await this.dovui(data, db, data.channel.id)     
+	},
+    async dovui (data, db, channelId) {
         const {questions,a,b,c,d,dapan} = await citnut.tools.getapi("dovui",data,false)
         let time = new Date
         let now = time.getTime()
-        let cd = round((db.game.dovui[data.channel.id].thoigian-now)/1000,0)
+        let cd = round((db.game.dovui[channelId].thoigian-now)/1000,0)
         if (cd>0) return data.reply({embeds:[citnut.defaultemb("Thời gian chờ câu trả lời").setTitle("Còn "+cd+"s!")],allowedMentions})
 		data.reply({embeds:[citnut.defaultemb(questions)], allowedMentions, components: [row(a,b,c,d)]})
-        db.game.dovui[data.channel.id] = {
+        db.game.dovui[channelId] = {
             questions,"A":a,"B":b,"C":c,"D":d,dapan,
             thoigian:now+(citnut.config.cd.dovui*1000)
         }
-	}
+    }
 }
