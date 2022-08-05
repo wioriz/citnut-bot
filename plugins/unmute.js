@@ -14,7 +14,7 @@ module.exports = {
 	slashconfig: new SlashCommandBuilder()
 		.setName(command[0])
 		.setDescription(description)
-		.addStringOption(option => option
+		.addStringOption(options => options
 			.setName("id")
 			.setDescription("id người sẽ được unmute")
 			.setRequired(true)

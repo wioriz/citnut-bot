@@ -11,7 +11,7 @@ module.exports = {
 	slashconfig: new SlashCommandBuilder()
 		.setName(command[0])
 		.setDescription(description)
-        .addStringOption(option => option
+        .addStringOption(options => options
             .setName("method")   
             .setDescription("lựa chọn 1 trong những kí tự sau: + - =")
             .addChoices(
@@ -21,20 +21,20 @@ module.exports = {
             )
             .setRequired(true)
         )
-        .addStringOption(option => option
+        .addStringOption(options => options
             .setName("value")   
             .setDescription("số tiền bạn muốn")
             .setRequired(true)
         )
-        .addUserOption(option => option
+        .addUserOption(options => options
             .setName("tag")   
             .setDescription("tag 1 người")
             .setRequired(true)
         )
 	,
 	async slashHandle (data, db) {
-        const option = data.options._hoistedOptions
-        const _args = ["", option.find(e => e.name == "method").value, option.find(e => e.name == "value").value, option.find(e => e.name == "tag").value]
+        const options = data.options._hoistedOptions
+        const _args = ["", options.find(e => e.name == "method").value, options.find(e => e.name == "value").value, options.find(e => e.name == "tag").value]
         return await this.call(data,db,data.user.id,_args,(data.user).displayAvatarURL({size: 1024, dynamic: true}))
     },
 	async listen (data,db) {},

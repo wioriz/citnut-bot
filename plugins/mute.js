@@ -14,7 +14,7 @@ module.exports = {
 	slashconfig: new SlashCommandBuilder()
 		.setName(command[0])
 		.setDescription(description)
-		.addStringOption(option => option
+		.addStringOption(options => options
 			.setName("id")
 			.setDescription("id người sẽ bị mute")
 			.setRequired(true)
@@ -25,7 +25,7 @@ module.exports = {
 	},
 	async call (data,db,author,victim,avt) {
 		let id = author?author:data.author.id
-		let muteId = victim?(victim):getParam(data.content)
+		let muteId = victim?victim:getParam(data.content)
 		const checkId = () => {
 			if (!db.user[muteId]) {
 				if (muteId.startsWith("<@") && muteId.endsWith(">") && db.user[muteId.slice(2,-1)]) return muteId.slice(2,-1)
