@@ -1,4 +1,4 @@
-﻿const {MessageActionRow, MessageButton} = citnut.Discord
+﻿const {MessageActionRow, MessageButton} = require("discord.js")
 const {round} = citnut.tools
 const {allowedMentions} = citnut
 const {SlashCommandBuilder} = require("@discordjs/builders")

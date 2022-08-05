@@ -26,7 +26,6 @@ bot.on("ready", async () =>{
 
 
 globalThis.citnut = {
-	Discord: require("discord.js"),
 	config,
 	tools,
 	send: function (replyMSG, message) {return message.reply({embeds:[citnut.defaultemb(replyMSG)], allowedMentions:citnut.allowedMentions})},

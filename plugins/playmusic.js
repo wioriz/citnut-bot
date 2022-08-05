@@ -1,4 +1,4 @@
-const {MessageActionRow, MessageButton} = citnut.Discord
+const {MessageActionRow, MessageButton} = require("discord.js")
 const allowedMentions = citnut.allowedMentions
 const {defaultemb} = citnut
 const {Player, QueueRepeatMode} = require("discord-player")
