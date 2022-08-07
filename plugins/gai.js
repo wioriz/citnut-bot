@@ -17,7 +17,7 @@ module.exports = {
 	},
 	async call (data,db) {
 		const res = await citnut.tools.getapi("girl",data,false)
-		if (!res) return citnut.send("đã xảy ra lỗi", data)
+		if (!res) return data.reply("đã xảy ra lỗi")
 		
 		return data.reply({content:res,allowedMentions:citnut.allowedMentions})
 		
