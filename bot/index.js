@@ -3,7 +3,7 @@ const axios = require("axios")
 const tools = require("./tools.js")
 tools.checkfile("./config.json",JSON.stringify(require("./defaultconfig.json"),null,2))
 const config = require("../config.json")
-const {Client, Intents} = require("discord.js")
+const {Client, Intents, MessageEmbed} = require("discord.js")
 const bot = new Client({partials: ["CHANNEL"],intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES,Intents.FLAGS.GUILD_VOICE_STATES]})
 const fakesv = require("./fakesv.js")
 const recursive = require("recursive-readdir")
@@ -49,7 +49,7 @@ globalThis.citnut = {
 		}
 	},
 	"defaultemb": (msg) => {
-		const emb = new citnut.Discord.MessageEmbed()
+		const emb = new MessageEmbed()
 			.setColor("RANDOM")
 			.setDescription(msg)
 			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
