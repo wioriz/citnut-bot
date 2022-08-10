@@ -15,11 +15,14 @@ module.exports = {
             .setDescription("id người nào đó")
         )
         .addUserOption(options => options
-            .setName("tag")
-            .setDescription("tag người dùng nào đó")
+            .setName("mention")
+            .setDescription("mention người dùng nào đó")
         )
 	,
-	async slashHandle (data, db) {const tag = data.options._hoistedOptions[0]?.value||false;return await this.call(data,db,tag,data.user,(data.user).displayAvatarURL({size: 1024, dynamic: true}))},
+	async slashHandle (data, db) {
+        const mention = data.options._hoistedOptions[0]?.value||false
+        return await this.call(data,db,mention,data.user,(data.user).displayAvatarURL({size: 1024, dynamic: true}))
+    },
 	async listen (data,db) {
         if (data.author.bot) return
         if(data.content){
@@ -47,16 +50,16 @@ module.exports = {
              
         }
 	},
-	async call (data,db,_tag,user,_avt) {
-        let tag, id = null
+	async call (data,db,_mention,user,_avt) {
+        let mention, id = null
         let avt = _avt?_avt:(data.mentions.users.first() || data.author).displayAvatarURL({size: 1024, dynamic: true})
-        if(data.content) {tag = data.content.split(" ")[1]} else
-        if(_tag) {tag = _tag} else
-        if(!tag) return data.reply({embeds:[citnut.defaultemb(`id: ${user?user.id:data.author.id}\n> số dư của bạn là ${db.user[user?user.id:data.author.id].money} 💵`).setThumbnail(avt)],allowedMentions:citnut.allowedMentions})
-        if(tag.startsWith("<@") && tag.endsWith(">")) {id = tag.slice(3,-1)} else
-        if(tag.startsWith("!")){ id = tag.slice(1)} else id = tag.toString()
+        mention = (() => {try {return data.mentions.users.first() ? data.mentions.users.first().id : _mention}catch {return _mention}})()
+        
+        if(!mention) return data.reply({embeds:[citnut.defaultemb(`id: ${user?user.id:data.author.id}\n> số dư của bạn là ${db.user[user?user.id:data.author.id].money} 💵`).setThumbnail(avt)],allowedMentions:citnut.allowedMentions})
+        if(mention.startsWith("<@") && mention.endsWith(">")) {id = mention.slice(3,-1)} else
+        if(mention.startsWith("!")){ id = mention.slice(1)} else id = mention.toString()
 
-        if(!db.user[id]) return data.reply({embeds:[citnut.defaultemb(`id: ${_tag?_tag:id}\n> chưa có thông tin về người dùng này`)],allowedMentions:citnut.allowedMentions})
+        if(!db.user[id]) return data.reply({embeds:[citnut.defaultemb(`id: ${_mention?_mention:id}\n> chưa có thông tin về người dùng này`)],allowedMentions:citnut.allowedMentions})
         return data.reply({embeds:[citnut.defaultemb(`id: ${id}\n> số dư của người dùng này là ${db.user[id].money} 💵`).setThumbnail(avt)],allowedMentions:citnut.allowedMentions})
       
     }
