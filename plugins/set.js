@@ -49,11 +49,12 @@ module.exports = {
         let method = ["+","-","="]
         let _method = args[1].toString()
         let value = Number(args[2])
-        if (!method.includes(_method) || !_method) return data.reply(errmsg)
+        if (!method.includes(_method)) return data.reply(errmsg)
         if (!value) return data.reply(errmsg)
-        let mention = args[3]
-        if (mention.startsWith("<@") && mention.endsWith(">")) {mention.slice(3,-1)} else
-        if (mention.startsWith("!")) mention.slice(1)
+        let mention = (() => {try {return data.mentions.users.first() ? data.mentions.users.first().id : args[3]}catch {return args[3]}})()
+        if (mention.startsWith("<@") && mention.endsWith(">")) {mention = mention.slice(3,-1)} 
+        if (mention.startsWith("!")) {mention = mention.slice(1)}
+        
         if (!mention || !db.user[mention]) return data.reply(errmsg)
         let avt = _avt?_avt:(data.mentions.users.first() || data.author).displayAvatarURL({size: 1024, dynamic: true})
         
