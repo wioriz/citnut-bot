@@ -2,6 +2,7 @@
 	"token": "",
 	"prefix": "!",
 	"admin": ["715782249693446155"],
+	"pluginsDir": "./plugins",
 	"api": {
 		"cadao": [
 			"https://manhict.tech/cadaovn",

@@ -32,7 +32,7 @@ globalThis.citnut = {
 	plugin: async function () {
 		let data = []
 		let allcommand = []
-		const list = await recursive("./plugins", ["data"])
+		const list = await recursive(config.pluginsDir, ["data"])
 		try {
 			for (const files of list) {
 				const item = require(`../${files}`)
