@@ -92,12 +92,13 @@ async function run () {
 
 		})
 		bot.on("messageCreate", async message => {
-			if (message.author.bot) return
-			let channelname = message.guildId ? message.channel.name : message.channel.id
-			if (config.console.onCmd && message.content.startsWith(citnut.config.prefix)) {
-				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${channelname}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
-			} else if (config.console.onMsg) {
-				console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${channelname}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+			if (!message.author.bot) {
+				let channelname = message.guildId ? message.channel.name : message.channel.id
+				if (config.console.onCmd && message.content.startsWith(citnut.config.prefix)) {
+					console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>use cmd>`.green,`${channelname}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				} else if (config.console.onMsg) {
+					console.log(" [CITNUT]".green,`${message.author.tag}`.yellow,`>send msg>`.green,`${channelname}`.yellow,`: ${message.content}${(message.attachments.size > 0) ? message.attachments : ""}`.green)
+				}
 			}
 			if (!db.user[message.author.id] || typeof db.user[message.author.id] != "object") {
 				db.user[message.author.id] = {
