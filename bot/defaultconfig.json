@@ -3,6 +3,10 @@
 	"prefix": "!",
 	"admin": ["715782249693446155"],
 	"pluginsDir": "./plugins",
+	"console": {
+		"onMsg": false,
+		"onCmd": true
+	},
 	"api": {
 		"cadao": [
 			"https://manhict.tech/cadaovn",
