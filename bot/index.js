@@ -77,7 +77,12 @@ async function run () {
 		let errmsg = `Lệnh bạn sử dụng không tồn tại!\n> sử dụng ${citnut.config.prefix}help\n> để hiển thị danh sách lệnh `
 		const emb = citnut.defaultemb(errmsg)
 		bot.login(citnut.config.token)
-		bot.on("interactionCreate", async interaction => { 
+		bot.on("interactionCreate", async interaction => {
+			let channelname = interaction.guildId ? interaction.channel.name : interaction.channel.id
+			if (config.console.onCmd && interaction.isCommand()) {
+				console.log(" [CITNUT]".green,`${interaction.user.username}`.yellow,`>use slash cmd>`.green,`${channelname}`.yellow,`: ${interaction.commandName}`.green)
+			} 
+			
 			if (!db.user[interaction.user.id] || typeof db.user[interaction.user.id] != "object") {
 				db.user[interaction.user.id] = {
 					tag: interaction.user.username,
