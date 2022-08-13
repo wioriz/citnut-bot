@@ -52,7 +52,7 @@ globalThis.citnut = {
 		const emb = new MessageEmbed()
 			.setColor("RANDOM")
 			.setDescription(msg)
-			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"https://discord.com/api/oauth2/authorize?client_id=896023318690402395&permissions=0&scope=bot"})
+			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"fb.com/nguyen.thanh.chinhs"})
 		return emb
 	},
 	"allowedMentions": { repliedUser: false }
