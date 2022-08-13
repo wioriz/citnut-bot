@@ -50,7 +50,7 @@ module.exports = {
 	
 			return data.reply({embeds:[!res?emb:emb.setThumbnail(res)],allowedMentions:citnut.allowedMentions})		
 		}catch (e) {
-			send("`"+`đã xảy ra lỗi`+"`", data)
+			send(`đã xảy ra lỗi`, data)
 			console.error(e)
 		}
 	}
