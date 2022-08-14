@@ -1,6 +1,6 @@
 {
 	"name": "citnutbot",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"description": "adu j ngu vay",
 	"main": "bot/index.js",
 	"scripts": {
@@ -23,7 +23,7 @@
 		"@discordjs/opus":"^0.7.0",
 		"axios": "^0.22.0",
 		"colors": "^1.4.0",
-		"discord.js": "^13.9.2",
+		"discord.js": "^13.10.2",
         "ffmpeg-static": "^4.4.1",
 		"node-fetch": "^2.6.5",
 		"decache": "^4.6.0",
