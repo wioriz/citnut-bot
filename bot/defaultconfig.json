@@ -7,6 +7,11 @@
 		"onMsg": false,
 		"onCmd": true
 	},
+	"infoBot": {
+		"name": "Citnut bot",
+		"iconURL": "https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",
+		"url": "https://fb.com/nguyen.thanh.chinhs"
+	},
 	"api": {
 		"cadao": [
 			"https://manhict.tech/cadaovn",

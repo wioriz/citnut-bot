@@ -15,8 +15,9 @@ module.exports = {
 		.setDescription(description)
 	,
 	async slashHandle (data, db) {
+		await data.reply({embeds: [citnut.defaultemb("đợi xíu nha")]})
 		let res = await citnut.tools.getapi("girl",data,false)
-		return data.reply(await this.upt(db,data.user.id,res,data.createdTimestamp))
+		return data.editReply(await this.upt(db,data.user.id,res,data.createdTimestamp))
 	},
 	async listen (data,db) {
 	},

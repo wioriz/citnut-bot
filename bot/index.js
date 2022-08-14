@@ -52,7 +52,7 @@ globalThis.citnut = {
 		const emb = new MessageEmbed()
 			.setColor("RANDOM")
 			.setDescription(msg)
-			.setAuthor({name:"Citnut bot",iconURL:"https://i.imgur.com/wtcUCqn_d.webp?maxwidth=760&fidelity=grand",url:"fb.com/nguyen.thanh.chinhs"})
+			.setAuthor(config.infoBot)
 		return emb
 	},
 	"allowedMentions": { repliedUser: false }
