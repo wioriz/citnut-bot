@@ -8,7 +8,7 @@ contact & support: [Nguyễn Thanh Chính](https://fb.com/nguyen.thanh.chinhs)
 
 ### Install:
 ```
-https://github.com/Citnut/demoProject.git
+git clone https://github.com/Citnut/demoProject.git
 cd demoProject
 npm i
 ```
