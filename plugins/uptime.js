@@ -33,9 +33,9 @@ module.exports = {
 			if(db.user[id].money<price) {
 				let thieutien = "bạn còn thiếu "+(price-db.user[id].money)+" 💵 để sử dụng lệnh này"
 				return {embeds:[citnut.defaultemb(thieutien)],allowedMentions:citnut.allowedMentions}
-			}else {
-				db.user[id].money-=price
 			}
+			db.user[id].money-=price
+			
 
 			let prefix = citnut.config.prefix,
 				time = process.uptime(),
