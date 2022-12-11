@@ -65,8 +65,9 @@ const getapi = async (apiname, bot, options) => {
 		const {data} = await axios.get(citnut.config.api[apiname][0]+(options?options:""))
 		return accesobj(citnut.config.api[apiname][1],data)
 	} catch (e) {
-		citnut.send(`api ${apiname} đã bị lỗi`, bot)
 		console.log(" [API] error".red,(apiname+(options?options:"")+" "+e).yellow)
+
+		return false
 	}
 	
 }
