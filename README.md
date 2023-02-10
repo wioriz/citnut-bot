@@ -9,7 +9,7 @@ contact & support: [Nguyễn Thanh Chính](https://fb.com/nguyen.thanh.chinhs)
 ### Install:
 ```
 git clone https://github.com/Citnut/citnut-bot.git
-cd demoProject
+cd citnut-bot
 npm i -f
 ```
 ### setup & run:
