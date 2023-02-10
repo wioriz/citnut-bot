@@ -15,7 +15,7 @@ module.exports = {
 	async listen (data,db) {
 	},
 	async call (data,db) {
-		data.reply({content:"https://github.com/Citnut/demoProject",allowedMentions:citnut.allowedMentions})		
+		data.reply({content:"https://github.com/Citnut/citnut-bot",allowedMentions:citnut.allowedMentions})		
 		
 	}
 }
