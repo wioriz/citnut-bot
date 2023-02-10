@@ -8,9 +8,9 @@ contact & support: [Nguyễn Thanh Chính](https://fb.com/nguyen.thanh.chinhs)
 
 ### Install:
 ```
-git clone https://github.com/Citnut/demoProject.git
+git clone https://github.com/Citnut/citnut-bot.git
 cd demoProject
-npm i
+npm i -f
 ```
 ### setup & run:
 ```
