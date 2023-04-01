@@ -38,7 +38,7 @@ const random = (start, end) => {
 }
 
 const checkupdate = async (version) => {
-	const {data} = await axios.get('https://raw.githubusercontent.com/Citnut/demoProject/main/package.json');
+	const {data} = await axios.get('https://raw.githubusercontent.com/Citnut/citnut-bot/main/package.json');
 		
 	if (data.version != version) {
 		const {data: info} = await axios.get('https://api.github.com/repos/Citnut/demoProject/git/refs/heads/main');
