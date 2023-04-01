@@ -41,7 +41,7 @@ const checkupdate = async (version) => {
 	const {data} = await axios.get('https://raw.githubusercontent.com/Citnut/citnut-bot/main/package.json');
 		
 	if (data.version != version) {
-		const {data: info} = await axios.get('https://api.github.com/repos/Citnut/demoProject/git/refs/heads/main');
+		const {data: info} = await axios.get('https://api.github.com/repos/Citnut/citnut-bot/git/refs/heads/main');
 		const {data: commit} = await axios.get(info.object.url);
 			
 		console.log(` [UPDATE] Đã có phiên bản mới: ${data.version}, phiên bản hiện tại: ${version}, go "npm run update" để cập nhật!`.yellow);
