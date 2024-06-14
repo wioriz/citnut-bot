@@ -1,7 +1,7 @@
 {
-	"token": "",
+	"token": "MTIzMTUxMTIzODYxODY0ODYxOQ.GlJTdh.aMEr2fOQ7zpJFOPxdRbyyYMQCbk-Cf2C2VitZ4",
 	"prefix": "!",
-	"admin": ["715782249693446155"],
+	"admin": ["1128881247721103431"],
 	"pluginsDir": "./plugins",
 	"console": {
 		"onMsg": false,
